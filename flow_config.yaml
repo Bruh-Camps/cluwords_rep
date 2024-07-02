@@ -4,35 +4,49 @@ flow_order:
   - Embedding
   - Clustering
   - Filtering
+  - POSFiltering
   - Weighting
   - Writer
 
 input:
-  data_source: "data\\dropPre.csv"  
+  data_source: "data/queries_dev_train.csv"  
 
 data:
   method: "PandasTask"
 
 embedding:
   method: "GensimEmbeddingTask"
-  data_source: "data\\wiki-news-300d-1M.vec"
+  data_source: "data/wiki-news-300d-1M.vec"
   binary: False
-  vocabulary: "data\\vocabulary_dropPre.csv"
+  vocabulary: "data/vocabulary_dropPre.csv"
 
 clustering:
   method: "HnswTask"
-  num_neighbors: 200
+  num_neighbors: 5
   num_threads: 4
 
 filtering:
   method: "ThresholdTask"
-  threshold_value: .4
+  threshold_value: .6
 
+posfiltering:
+  method: "PartOfSpeechTask"
+  pos_filters:
+    - "ADP"
+    - "VERB"
+    - "SYM"
+    - "NUM"
+    - "X"
+    - "SCONJ"
+    - "PUNCT"
+    - "AUX"
+    - "CONJ"
+  
 weighting:
-  method: "TfTask"
+  method: "TfExpansionTask"
 
 writer:
   method: "WriterTask"
-  cluwords_repr_path: "data_output\\cw_repr_thresh_0.4_dropPre.npz"
-  data_path: "data_output\\cw_repr_thresh_0.4_dropPre.parquet"
+  cluwords_repr_path: "data_output/dev_train_repr_thresh_0.6_dropPre.npz"
+  data_path: "data_output/dev_train_repr_thresh_0.6_dropPre.parquet"
   
