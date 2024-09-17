@@ -1,25 +1,44 @@
-# cluwords_rep
- Implementation of the CluWords Module Representation
+## Instruções
 
-## Instalation
-Follow the instructions to intall Poetry - https://python-poetry.org/docs/
+Para executar a expansão de consultas com os parâmetros utilizados no projeto atual, basta seguir as instruções abaixo:
 
-To install dependencies, use the following commands:
+1 - Na raiz do projeto executar **prepare_data.py** para obter os arquivos que serão usados. Os arquivos usados são:
+	
+    Vocabulary: 
+    https://github.com/microsoft/MSMARCO-Passage-Ranking/tree/master/Baselines 
+
+    Word vectors: 
+    https://fasttext.cc/docs/en/english-vectors.html 
+
+    MSMARCO queries and qrels: 
+    https://ir-datasets.com/msmarco-passage.html#msmarco-passage/train/judged 
+	
+
+2 -  Copiar /flows/queries_expansion_config para a raiz do projeto e editar os seguintes parâmetros para que fiquem com o caminho dos arquivos baixados anteriormente:
+
+        input:
+            data_source: "data/queries_train_judged.csv"
+
+        embedding:
+            data_source: "data/wiki-news-300d-1M.vec"
+            vocabulary: "data/word-vocab-small.csv"
+
+        writer:
+            cluwords_repr_path: "data_output/queries_train_judged_thresh_0.6.npz"
+            data_path: "data_output/queries_train_judged_thresh_0.6.parquet"
+
+3 - Para iniciar o processo, execute os comandos abaixo na raiz do projeto:
+
 ```
 poetry shell
 poetry install
+python -m spacy download en
+python run_cluwords_pipeline.py
 ```
 
-## Usage
+As 161 queries com pelo menos 5 julgamentos demoram cerca de 25 minutos para serem expandidas usando as configurações acima.
 
-The folder `flows` contains a few samples of CluWords instantiations. For instance, the flow -- `topic_modeling_config.yaml` is the CluWords instantiation for Topic Modeling. Thus, to use this instantiation follow the instructions:
-
-* Copy the content of `topic_modeling_config.yaml` and paste in the file `flow_config.yaml` in the root path.
-* As you may see in the YAML file, the instantiation may require a few data inputs. First the dataset, I left a sample data set `dropPre.csv` in the `data` folder, so please check it out. Second, it require a embedding representation file, you can download the fasttext embedding represetation through the [link](https://dl.fbaipublicfiles.com/fasttext/vectors-english/wiki-news-300d-1M.vec.zip). Finally, it also may require a vocabulary datafile. I left a notebook `get_vocabulary.ipynb` in the notebooks folder so you can generate your vocabulary file.
-* After setting up the dependency files, you may run the script `run_cluwords_pipeline.py`.
-
-## References
-You may find more detail about our work here:
+## Referências
 
 ```
 title={CluWords: Exploiting SemanticWord Clustering Representation for Enhanced Topic Modeling},

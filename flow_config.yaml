@@ -9,7 +9,7 @@ flow_order:
   - Writer
 
 input:
-  data_source: "data/queries_dev_train.csv"  
+  data_source: "data/queries_train_judged.csv"  
 
 data:
   method: "PandasTask"
@@ -18,7 +18,7 @@ embedding:
   method: "GensimEmbeddingTask"
   data_source: "data/wiki-news-300d-1M.vec"
   binary: False
-  vocabulary: "data/vocabulary_dropPre.csv"
+  vocabulary: "data/word-vocab-small.csv"
 
 clustering:
   method: "HnswTask"
@@ -47,6 +47,6 @@ weighting:
 
 writer:
   method: "WriterTask"
-  cluwords_repr_path: "data_output/dev_train_repr_thresh_0.6_dropPre.npz"
-  data_path: "data_output/dev_train_repr_thresh_0.6_dropPre.parquet"
+  cluwords_repr_path: "data_output/queries_train_judged_thresh_0.6.npz"
+  data_path: "data_output/queries_train_judged_thresh_0.6.parquet"
   

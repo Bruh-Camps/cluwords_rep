@@ -1,4 +1,2 @@
 *.pyc
-data_output/
 data/wiki-news-300d-1M.vec
-data/queries_dev_train.csv
